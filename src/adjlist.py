@@ -141,7 +141,26 @@ class AdjacencyList:
 
         Returns an adjacency list head.
         '''
-        log.info("TODO: delete_node()")
+        if str(self.name) == str(name) :
+            ripNode = self
+            self = self.tail()
+
+        else :
+            parrent = self.head()
+            ripNode = self
+            while str(ripNode.name() ) != str(name) :
+                parrent = self
+                ripNode = self.tail()
+            if ripNode.tail().is_empty() :
+                tailNode = AdjacencyList()
+            else :
+                tailNode = ripNode.tail()
+            parrent.cons(tailNode)
+        ripNode.set_name(None)
+        ripNode.set_info(None)
+        ripNode.cons(AdjacencyList() )
+        ripNode.set_edges(Edge() )
+
         return self.head()
 
     def find_node(self, name):
