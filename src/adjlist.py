@@ -114,8 +114,15 @@ class AdjacencyList:
         if self.is_empty():
             self.set_name(name)
             self.set_info(info)
-            print("In empty")
-        log.info("TODO: add_node()")
+            self._tail = AdjacencyList()
+            self._edges = Edge()
+        elif self.name() < name and self.tail().name() > name:
+            newNode=AdjacencyList()
+            newNode.cons(self.tail() )
+            self.cons(newNode)
+        else:
+            self.tail.add_node(name, info)
+
         return self.head()
 
     def delete_node(self, name):
