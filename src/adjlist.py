@@ -111,6 +111,10 @@ class AdjacencyList:
 
         Returns an adjacency list head.
         '''
+        if self.is_empty():
+            self.set_name(name)
+            self.set_info(info)
+            print("In empty")
         log.info("TODO: add_node()")
         return self.head()
 
@@ -211,7 +215,7 @@ class AdjacencyList:
         '''
         Returns this adjacency list as an adjacency matrix.  For example,
         consider the following adjacency list where all edges have weight=1.
-        
+
         a: a->b->c
         |
         v
@@ -286,7 +290,7 @@ class Edge:
         Returns true if this edge is empty.
         '''
         return self._dst is None
-    
+
     def head(self):
         '''
         Returns the head of this edge.
@@ -335,7 +339,7 @@ class Edge:
         '''
         self._weight = weight
         return self.head()
-    
+
     ###
     # Operations
     ###
