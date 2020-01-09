@@ -116,6 +116,13 @@ class AdjacencyList:
             self.set_info(info)
             self.cons(AdjacencyList() )
             self.set_edges(Edge() )
+        elif str(self.name()) > str(name) :
+            newNode=AdjacencyList()
+            newNode.set_name(name)
+            newNode.set_info(info)
+            newNode.set_edges(Edge() )
+            newNode.cons(self)
+            self = newNode
         elif str(self.name()) < str(name) and str(self.tail().name()) > str(name) :
             newNode=AdjacencyList()
             newNode.set_name(name)
