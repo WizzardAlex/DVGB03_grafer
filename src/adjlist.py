@@ -209,8 +209,6 @@ class AdjacencyList:
         Pre: `dst` is a member of this adjacency list.
         '''
         if self.is_empty(): return
-        print("name "+self.name())
-        print("src "+src)
         if str(self.name()) == str(src):
             print("SUCC")
             self.edges().add(dst, weight)
@@ -226,7 +224,12 @@ class AdjacencyList:
 
         Returns an adjacency list head.
         '''
-        log.info("TODO: delete_edge()")
+        #log.info("TODO: delete_edge()")
+        if self.find_node(src) and self.find_node(dst):
+            if str(self.name()) == str(src):
+                self.edges().delete(dst)
+            else:
+                self.tail().delete_edge(src, dst)
         return self.head()
 
     def delete_edges(self, name):
@@ -439,7 +442,18 @@ class Edge:
 
         Returns an edge head.
         '''
-        log.info("TODO: delete()")
+        #log.info("TODO: delete()")
+        if self.find(dst) and str(self.dst()) == str(dst) and self.tail().is_empty():
+            # case: self is dst and tail empty
+            self = self.tail()
+
+        elif self.find(dst) and not self.is_empty():
+            # case tail is dst 
+            if str(self.tail().dst()) == str(dst):
+                self.set_tail(self.tail().tail())
+        elif self.find(dst) and not self.is_empty() and str(self.dst()) != str(dst):
+            # case self and tail not dst
+            self.cons(self.tail().delete(dst))
         return self.head()
 
     def find(self, dst):
