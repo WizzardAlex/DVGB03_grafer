@@ -211,7 +211,8 @@ class AdjacencyList:
         if self.is_empty(): return
         if str(self.name()) == str(src):
             print("SUCC")
-            self.edges().add(dst, weight)
+            self.set_edges(self.edges().add(dst, weight))
+            print("new "+self.edges().dst())
         else:
             print("FAIL")
             self.tail()._add_edge(src, dst, weight)
@@ -225,11 +226,10 @@ class AdjacencyList:
         Returns an adjacency list head.
         '''
         #log.info("TODO: delete_edge()")
-        if self.find_node(src) and self.find_node(dst):
-            if str(self.name()) == str(src):
-                self.edges().delete(dst)
-            else:
-                self.tail().delete_edge(src, dst)
+        if str(self.name()) == str(src):
+            self.set_edges(self.edges().delete(dst))
+        else:
+            self.tail().delete_edge(src, dst)
         return self.head()
 
     def delete_edges(self, name):
@@ -419,11 +419,13 @@ class Edge:
             self.set_weight(weight)
         elif str(self.dst()) > str(dst):
             print("that")
+            print("head {}: tail {}: ".format(self.head().dst(), self.tail().dst()))
             newEdge=Edge()
             newEdge.set_dst(dst)
             newEdge.set_weight(weight)
             newEdge.cons(self)
             self = newEdge
+            print("head {}: tail {}: ".format(self.head().dst(), self.tail().dst()))
         elif str(self.dst()) < str(dst) and str(self.tail().dst()) > str(dst) :
             print("those")
             newEdge=Edge()
@@ -434,6 +436,7 @@ class Edge:
         else:
             print("thote")
             self.tail().add(dst, weight)
+        print("fin")
         return self.head()
 
     def delete(self, dst):
