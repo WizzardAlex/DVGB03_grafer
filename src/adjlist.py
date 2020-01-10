@@ -208,10 +208,16 @@ class AdjacencyList:
 
         Pre: `dst` is a member of this adjacency list.
         '''
-        if self.name() == src:
+        if self.is_empty(): return
+        print("name "+self.name())
+        print("src "+src)
+        if str(self.name()) == str(src):
+            print("SUCC")
             self.edges().add(dst, weight)
         else: 
+            print("FAIL")
             self.tail()._add_edge(src, dst, weight)
+
         return self.head()
 
     def delete_edge(self, src, dst):
@@ -401,6 +407,9 @@ class Edge:
             self.set_dst(dst)
             self.set_weight(weight)
             self.cons(Edge())
+        elif str(self.dst()) == str(dst):
+            print("thon'st")
+            self.set_weight(weight)
         elif str(self.dst()) > str(dst):
             print("that")
             newEdge=Edge()
