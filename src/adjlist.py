@@ -179,8 +179,10 @@ class AdjacencyList:
         '''
         Returns the number of nodes.
         '''
-        log.info("TODO: node_cardinality()")
-        return 0
+        if not self.is_empty():
+            return 1 + self.tail().node_cardinality()
+        else:
+            return 0
 
     ###
     # Edge operations
@@ -411,7 +413,10 @@ class Edge:
         '''
         Returns the number of edges in this sequence.
         '''
-        log.info("TODO: edge cardinality()")
+        if not self.is_empty():
+            return 1 + self.tail().cardinality()
+        else:
+            return 0
         return 0
 
     def list(self, src):
