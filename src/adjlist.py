@@ -208,7 +208,7 @@ class AdjacencyList:
 
         Pre: `dst` is a member of this adjacency list.
         '''
-        log.info("TODO: _add_edge()")
+        self.edges().add(dst, weight)
         return self.head()
 
     def delete_edge(self, src, dst):
@@ -240,8 +240,11 @@ class AdjacencyList:
         '''
         Returns the number of edges.
         '''
-        log.info("TODO: edge_cardinality()")
-        return 0
+        #log.info("TODO: edge_cardinality()")
+        if self.is_empty(): 
+            return 0
+
+        return self.edges().cardinality() + self.tail().edge_cardinality()
 
     def self_loops(self):
         '''
@@ -390,7 +393,28 @@ class Edge:
 
         Returns an edge head.
         '''
-        log.info("TODO: add()")
+        if self.is_empty() :
+            print("this")
+            self.set_dst(dst)
+            self.set_weight(weight)
+            self.cons(Edge())
+        elif str(self.dst()) > str(dst):
+            print("that")
+            newEdge=Edge()
+            newEdge.set_dst(dst)
+            newEdge.set_weight(weight)
+            newEdge.cons(self)
+            self = newEdge
+        elif str(self.dst()) < str(dst) and str(self.tail().dst()) > str(dst) :
+            print("those")
+            newEdge=Edge()
+            newEdge.set_dst(dst)
+            newEdge.set_weight(weight)
+            newEdge.cons(self.tail() )
+            self.cons(newEdge)
+        else:
+            print("thote")
+            self.tail().add(dst, weight)
         return self.head()
 
     def delete(self, dst):
