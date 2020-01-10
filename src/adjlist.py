@@ -208,7 +208,10 @@ class AdjacencyList:
 
         Pre: `dst` is a member of this adjacency list.
         '''
-        self.edges().add(dst, weight)
+        if self.name() == src:
+            self.edges().add(dst, weight)
+        else: 
+            self.tail()._add_edge(src, dst, weight)
         return self.head()
 
     def delete_edge(self, src, dst):
