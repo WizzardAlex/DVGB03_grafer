@@ -141,16 +141,18 @@ class AdjacencyList:
 
         Returns an adjacency list head.
         '''
-        if str(self.name) == str(name) :
-            ripNode = self
-            self = self.tail()
+        if str(self.name()) == str(name) :
+            ripNode = self.tail()
+            self.set_name(self.tail().name())
+            self.set_info(self.tail().info())
+            self.set_edges(self.tail().edges())
+            self.cons(self.tail().tail())
 
         else :
-            parrent = self.head()
             ripNode = self
             while str(ripNode.name() ) != str(name) :
-                parrent = self
-                ripNode = self.tail()
+                parrent = ripNode
+                ripNode = ripNode.tail()
             if ripNode.tail().is_empty() :
                 tailNode = AdjacencyList()
             else :
