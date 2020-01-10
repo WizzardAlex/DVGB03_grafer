@@ -214,7 +214,7 @@ class AdjacencyList:
         if str(self.name()) == str(src):
             print("SUCC")
             self.edges().add(dst, weight)
-        else: 
+        else:
             print("FAIL")
             self.tail()._add_edge(src, dst, weight)
 
@@ -242,7 +242,11 @@ class AdjacencyList:
         '''
         Returns True if there's an edge from node `src` to node `dst`.
         '''
-        log.info("TODO: find_edge()")
+        if self.find_node(src) :
+            if str(self.name()) == str(src):
+                return self.edges().find(dst)
+            else :
+                return self.tail().find_edge(src,dst)
         return False
 
     def edge_cardinality(self):
@@ -250,7 +254,7 @@ class AdjacencyList:
         Returns the number of edges.
         '''
         #log.info("TODO: edge_cardinality()")
-        if self.is_empty(): 
+        if self.is_empty():
             return 0
 
         return self.edges().cardinality() + self.tail().edge_cardinality()
@@ -442,8 +446,12 @@ class Edge:
         '''
         Returns True if there is an edge towards `dst` in this sequence.
         '''
-        log.info("TODO: edge find()")
-        return False
+        if self.is_empty():
+            return False
+        elif dst == self.head().dst():
+            return True
+        else :
+            return self.tail().find(dst)
 
     def cardinality(self):
         '''
