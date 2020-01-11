@@ -146,7 +146,7 @@ class AdjacencyList:
                 self = self.tail()
             else:
                 self.cons(self.tail().delete_node(name))
-    
+
         return self.head()
 
     def find_node(self, name):
@@ -240,7 +240,6 @@ class AdjacencyList:
         '''
         Returns the number of edges.
         '''
-        #log.info("TODO: edge_cardinality()")
         if self.is_empty():
             return 0
 
@@ -251,8 +250,12 @@ class AdjacencyList:
         Returns the number of loops in this adjacency list.  Note that a loop is
         defined as a node that has an edge towards itself, e.g., A->A.
         '''
-        log.info("TODO: self_loops()")
-        return 0
+        if self.find_edge( self.name(),self.name()):
+            return 1 + self.tail().self_loops()
+        else:
+            return 0
+
+
 
     def adjacency_matrix(self):
         '''
@@ -427,7 +430,7 @@ class Edge:
                 # case: self is dst
                 self = self.tail()
             elif str(self.tail().dst()) == str(dst):
-                # case tail is dst 
+                # case tail is dst
                 self.cons(self.tail().tail())
             elif str(self.dst()) != str(dst):
                 # case self and tail not dst
