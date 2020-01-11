@@ -294,8 +294,21 @@ class AdjacencyList:
         # In case you'd like to create an inf-initialized n x n matrix
         n = self.node_cardinality()
         matrix = [ [inf]*n for i in range(n) ]
-        log.info("TODO: adjacency_matrix()")
+        self.enter_edges(matrix, 0, self.list_nodes())
         return matrix
+
+    def enter_edges(self, matrix, pos, node_list):
+        if not self.is_empty():
+            edg = self.edges()
+            while not edg.is_empty():
+                for index, item in enumerate(node_list):
+                    if edg.dst() == item:
+                        matrix[pos][index] = edg.weight()
+
+
+                edg = edg.tail()
+
+            self.tail().enter_edges(matrix, pos+1, node_list)
 
     def list_nodes(self):
         '''
