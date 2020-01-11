@@ -17,6 +17,11 @@ class TerminalUI:
         self._mode = mode if mode=="directed" else "undirected"
         self._adjlist = AdjacencyList()
         log.info("running in mode: {}".format(self._mode))
+        """
+        self._adjlist = self._adjlist.add_node('a')
+        self._adjlist = self._adjlist.add_node('b')
+        self._adjlist = self._adjlist.add_node('c')
+        """
 
     def run(self):
         '''

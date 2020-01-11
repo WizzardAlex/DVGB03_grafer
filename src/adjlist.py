@@ -141,28 +141,12 @@ class AdjacencyList:
 
         Returns an adjacency list head.
         '''
-        if str(self.name()) == str(name) :
-            ripNode = self.tail()
-            self.set_name(self.tail().name())
-            self.set_info(self.tail().info())
-            self.set_edges(self.tail().edges())
-            self.cons(self.tail().tail())
-
-        else :
-            ripNode = self
-            while str(ripNode.name() ) != str(name) :
-                parrent = ripNode
-                ripNode = ripNode.tail()
-            if ripNode.tail().is_empty() :
-                tailNode = AdjacencyList()
-            else :
-                tailNode = ripNode.tail()
-            parrent.cons(tailNode)
-        ripNode.set_name(None)
-        ripNode.set_info(None)
-        ripNode.cons(AdjacencyList() )
-        ripNode.set_edges(Edge() )
-
+        if not self.is_empty():
+            if self.name() == name:
+                self = self.tail()
+            else:
+                self.cons(self.tail().delete_node(name))
+    
         return self.head()
 
     def find_node(self, name):
@@ -210,11 +194,8 @@ class AdjacencyList:
         '''
         if self.is_empty(): return
         if str(self.name()) == str(src):
-            print("SUCC")
             self.set_edges(self.edges().add(dst, weight))
-            print("new "+self.edges().dst())
         else:
-            print("FAIL")
             self.tail()._add_edge(src, dst, weight)
 
         return self.head()
@@ -225,11 +206,11 @@ class AdjacencyList:
 
         Returns an adjacency list head.
         '''
-        #log.info("TODO: delete_edge()")
-        if str(self.name()) == str(src):
-            self.set_edges(self.edges().delete(dst))
-        else:
-            self.tail().delete_edge(src, dst)
+        if self.find_node(src):
+            if str(self.name()) == str(src):
+                self.set_edges(self.edges().delete(dst))
+            else:
+                self.tail().delete_edge(src, dst)
         return self.head()
 
     def delete_edges(self, name):
@@ -238,7 +219,12 @@ class AdjacencyList:
 
         Returns an adjacency list head.
         '''
-        log.info("TODO: delete_edges()")
+        #log.info("TODO: delete_edges()")
+        print("uff")
+        if not self.is_empty():
+            self.edges().delete(name)
+            if not self.tail().is_empty():
+                self.tail().delete_edges(name)
         return self.head()
 
     def find_edge(self, src, dst):
@@ -410,33 +396,25 @@ class Edge:
         Returns an edge head.
         '''
         if self.is_empty() :
-            print("this")
             self.set_dst(dst)
             self.set_weight(weight)
             self.cons(Edge())
         elif str(self.dst()) == str(dst):
-            print("thon'st")
             self.set_weight(weight)
         elif str(self.dst()) > str(dst):
-            print("that")
-            print("head {}: tail {}: ".format(self.head().dst(), self.tail().dst()))
             newEdge=Edge()
             newEdge.set_dst(dst)
             newEdge.set_weight(weight)
             newEdge.cons(self)
             self = newEdge
-            print("head {}: tail {}: ".format(self.head().dst(), self.tail().dst()))
         elif str(self.dst()) < str(dst) and str(self.tail().dst()) > str(dst) :
-            print("those")
             newEdge=Edge()
             newEdge.set_dst(dst)
             newEdge.set_weight(weight)
             newEdge.cons(self.tail() )
             self.cons(newEdge)
         else:
-            print("thote")
             self.tail().add(dst, weight)
-        print("fin")
         return self.head()
 
     def delete(self, dst):
@@ -445,18 +423,17 @@ class Edge:
 
         Returns an edge head.
         '''
-        #log.info("TODO: delete()")
-        if self.find(dst) and str(self.dst()) == str(dst) and self.tail().is_empty():
-            # case: self is dst and tail empty
-            self = self.tail()
 
-        elif self.find(dst) and not self.is_empty():
-            # case tail is dst 
-            if str(self.tail().dst()) == str(dst):
-                self.set_tail(self.tail().tail())
-        elif self.find(dst) and not self.is_empty() and str(self.dst()) != str(dst):
-            # case self and tail not dst
-            self.cons(self.tail().delete(dst))
+        if self.find(dst) and not self.is_empty():
+            if str(self.dst()) == str(dst):
+                # case: self is dst
+                self = self.tail()
+            elif str(self.tail().dst()) == str(dst):
+                # case tail is dst 
+                self.cons(self.tail().tail())
+            elif str(self.dst()) != str(dst):
+                # case self and tail not dst
+                self.cons(self.tail().delete(dst))
         return self.head()
 
     def find(self, dst):
@@ -467,7 +444,7 @@ class Edge:
             return False
         elif dst == self.head().dst():
             return True
-        else :
+        else:
             return self.tail().find(dst)
 
     def cardinality(self):
