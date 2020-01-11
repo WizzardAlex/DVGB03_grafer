@@ -219,10 +219,8 @@ class AdjacencyList:
 
         Returns an adjacency list head.
         '''
-        #log.info("TODO: delete_edges()")
-        print("uff")
         if not self.is_empty():
-            self.edges().delete(name)
+            self.set_edges(self.edges().delete(str(name)))
             if not self.tail().is_empty():
                 self.tail().delete_edges(name)
         return self.head()
