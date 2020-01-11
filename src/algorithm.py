@@ -14,8 +14,24 @@ def warshall(adjlist):
 
     Pre: adjlist is not empty.
     '''
-    log.info("TODO: warshall()")
-    return [[]]
+    matrix = adjlist.adjacency_matrix()
+    n = adjlist.node_cardinality()
+    for i in range(n):
+        for y in range(n):
+            if i == y :
+                matrix[i][y] = True
+            elif matrix[i][y] == inf:
+                matrix[i][y] = False
+            else:
+                matrix[i][y] = True
+    for i in range(n):
+        for y in range(n):
+            for x in range(n):
+                matrix[y][x] = matrix[y][x] or ( matrix[y][i] and matrix[i][x])
+
+
+
+    return matrix
 
 def floyd(adjlist):
     '''
@@ -23,8 +39,17 @@ def floyd(adjlist):
 
     Pre: adjlist is not empty.
     '''
-    log.info("TODO: floyd()")
-    return [[]]
+    matrix = adjlist.adjacency_matrix()
+    n = adjlist.node_cardinality()
+    for i in range(n):
+        for y in range(n):
+            for x in range(n):
+                if y == x:
+                    matrix[y][x] = 0
+                else:
+                    matrix[y][x] = min(matrix[y][x] , ( matrix[y][i] + matrix[i][x]))
+
+    return matrix
 
 def dijkstra(adjlist, start_node):
     '''
@@ -63,7 +88,7 @@ def prim(adjlist, start_node):
     1) lowcost l: here, l[i] contains the weight of the cheapest edge to connect
     the i:th node to the minimal spanning tree that started at `start_node`.
     2) closest c: here, c[i] contains the node name that the i:th node's
-    cheapest edge orignated from. 
+    cheapest edge orignated from.
 
     If the index i refers to the start node, set the associated values to None.
 

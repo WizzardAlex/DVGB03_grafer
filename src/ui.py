@@ -33,7 +33,7 @@ class TerminalUI:
             if err is not None:
                 self.display_error(err)
                 continue
-            
+
             if opt == "m":
                 self.display_menu()
             elif opt == "v":
@@ -293,7 +293,7 @@ class TerminalUI:
         if self._adjlist.is_empty():
             self.display_error("graph is empty")
             return
-        
+
         nodes = self._adjlist.list_nodes()
         self.display_matrix_head(nodes)
         self.display_matrix_data(nodes, warshall(self._adjlist))
@@ -305,7 +305,7 @@ class TerminalUI:
         if self._adjlist.is_empty():
             self.display_error("graph is empty")
             return
-        
+
         nodes = self._adjlist.list_nodes()
         self.display_matrix_head(nodes)
         self.display_matrix_data(nodes, floyd(self._adjlist))
@@ -351,7 +351,7 @@ class TerminalUI:
             ("closest", closest, None),
         ])
         self.display_mst_sum(lowcost)
-    
+
     def display_mst_sum(self, lowcost):
         mst_sum = sum([ v for v in lowcost if v is not None and v!=inf ])
         print("\tMST sum: {}\n".format(mst_sum))
