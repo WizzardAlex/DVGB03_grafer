@@ -97,25 +97,28 @@ def prim(adjlist, start_node):
     c: [ None, 'a', 'b' ]
     '''
     #log.info("TODO: prim()")
+    n = adjlist.node_cardinality()
+    matrix = [ [inf]*n for i in range(n) ]
     
-    print("nEW")
     connected = [start_node]
     tree = AdjacencyList() # keeps track of added nodes
     tree.add_node(start_node)
 
     # create initial edge and node
+    curr_edge = Edge(weight=inf) # will be overridden by first legible node
     while are_unconnected(adjlist, connected):
-        curr_edge = Edge(weight=inf) # will be overridden by first legible node
         nod = adjlist
         while not nod.is_empty(): # find currently node with shortest edge
 
-            edg = nod.edges()
-            while not edg.is_empty(): # find best edge in node
-                if not edg.dst() in connected and edg.weight() < curr_edge.weight() and edg.dst() != nod.name():
-                    # better edge found, saving
-                    curr_node = nod
-                    curr_edge = edg
-                edg = edg.tail()
+            # filter nodes not in graph
+            if nod.name() in connected: 
+                edg = nod.edges()
+                while not edg.is_empty(): # find best edge in node
+                    if not edg.dst() in connected and edg.weight() < curr_edge.weight() and edg.dst() != nod.name():
+                        # better edge found, saving
+                        curr_node = nod
+                        curr_edge = edg
+                    edg = edg.tail()
             
             nod = nod.tail()
         
@@ -130,23 +133,19 @@ def prim(adjlist, start_node):
             nud = nud.tail()
 
         tree.add_node(curr_edge.dst())
-        # find corresponding node for undirectional edge
-        """
-        nad = tree
-        while not nad.is_empty():
-            if nad.name() == curr_edge.dst():
-                nad.edges().add(curr_node.name(), curr_edge.weight())
-            nad = nad.tail()
-        """
         connected.append(curr_edge.dst())
-        input()
 
         print(connected)
     print(connected)
     n = adjlist.node_cardinality()
-    l = [inf]*n
-    c = [None]*n 
+    l = [ [inf]*n for i in range(n) ]
+    c = [ [None]*n for i in range(n) ]
 
+
+    '''
+    l: [ None, 1, 1]
+    c: [ None, 'a', 'b' ]
+    '''
     nodelist = adjlist.list_nodes()
     for index, item in enumerate(nodelist):
         if not item in connected:
@@ -157,19 +156,14 @@ def prim(adjlist, start_node):
             l[index] = None
             c[index] = None
             continue
-    nad = tree
     while not nad.is_empty():
         edg = nad.edges()
         while not edg.is_empty():
-            l[nodelist.index(edg.dst())] = edg.weight()
-            c[nodelist.index(edg.dst())] = nad.name()
+            l[edg.dst()] = edg.weight()
+            c[edg.dst()] = nod.name()
             edg = edg.tail()
         nad = nad.tail()
 
-    print("prim prom")
-    print(l)
-    print("--")
-    print(c)
     return l, c
 
 if __name__ == "__main__":
