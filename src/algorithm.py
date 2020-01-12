@@ -77,9 +77,20 @@ def dijkstra(adjlist, start_node):
     d: [ None, 1, 2]
     e: [ None, 'a', 'a' ]
     '''
-    log.info("TODO: dijkstra()")
-    d = []
-    e = []
+    nodeList = adjlist.list_nodes()
+    nodes= adjlist.node_cardinality()
+    d = [inf]*nodes
+    e = [None]*nodes
+    visited = ['F']*nodes
+    tmpNode = adjlist.get_node(start_node)
+    for i in range(len(nodes)):
+        if nodeList[i] == start_node:
+            d[i] = 0
+            visited[i] = 'T'
+            nodeList.pop(i)
+
+
+
     return d, e
 
 def prim(adjlist, start_node):

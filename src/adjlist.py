@@ -168,6 +168,17 @@ class AdjacencyList:
         else:
             return 0
 
+    def get_node(self, name):
+        '''
+        Returns node with same name
+        pre: the node exists
+        '''
+        if str(self.name()) == str(name):
+            return self
+        else:
+            return get_node(self.tail(), name)
+
+
     ###
     # Edge operations
     ###
@@ -480,6 +491,7 @@ class Edge:
         if self.head().is_empty():
             return []
         return [(src, self.head().dst(), self.weight())] + self.tail().list(src)
+
 
 if __name__ == "__main__":
     log.critical("module contains no main method")
