@@ -15,6 +15,7 @@ log = logging.getLogger(__name__)
 
 from math import inf
 
+print("hello")
 class AdjacencyList:
     '''
     A linked-list implementation of an adjacency list that keeps its nodes and
